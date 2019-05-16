@@ -1,10 +1,16 @@
-#include "SoftwareSerial.h"
+//#include "SoftwareSerial.h"
 #include "Hshopvn_PZEM004T_V2.h"
 
-SoftwareSerial pzem(2,3);
-#define debug     Serial
-#define DB(x)  debug.print(x);
-#define DB_LN(x)  debug.println(x);
+//SoftwareSerial pzem(2,3);
+//#define debug     Serial
+//#define DB(x)  debug.print(x);
+//#define DB_LN(x)  debug.println(x);
+
+Hshopvn_Pzem04t pzem1(2,3);
+//6426 - 398
+
+//Hshopvn_Pzem04t pzem1;
+//5986 - 398
 
 //#define MIROR_VALUE(x)      ((uint16_t)(((x<<8)&0xff00)+((x>>8)&0xff)))
 //
@@ -47,11 +53,12 @@ SoftwareSerial pzem(2,3);
 
 void setup() {
   // put your setup code here, to run once:
-  pzem.begin(9600);
-  debug.begin(9600);
-  DB_LN("Start debug");
-//  sendCommand();
-//  reset_Energy();
+  pzem1.begin(9600);
+  pzem1.setTimeout(2000);
+//  debug.begin(9600);
+//  DB_LN("Start debug");
+  pzem1.getData();
+  pzem1.resetEnergy();
 }
 
 //pzem_info sendCommand(){
@@ -94,12 +101,12 @@ void setup() {
 //  return tem_pzem;
 //}
 
-void reset_Energy(){
-  while(pzem.available()){
-    pzem.read();
-  }
-  pzem.write(resetEnergy_para, sizeof(resetEnergy_para));
-}
+//void reset_Energy(){
+//  while(pzem.available()){
+//    pzem.read();
+//  }
+//  pzem.write(resetEnergy_para, sizeof(resetEnergy_para));
+//}
 
 
 void loop() {

@@ -3,14 +3,17 @@
 
 #include "arduino.h"
 
-#define MIROR_VALUE(x)      ((uint16_t)(((x<<8)&0xff00)+((x>>8)&0xff)))
+#define MIROR_VALUE(x)        ((uint16_t)(((x<<8)&0xff00)+((x>>8)&0xff)))
 
-#define SCALE_V       (0.1)
-#define SCALE_A       (0.001)
-#define SCALE_P       (0.1)
-#define SCALE_E       (1)
-#define SCALE_H       (0.1)
-#define SCALE_PF      (0.01)
+#define SCALE_V               (0.1)
+#define SCALE_A               (0.001)
+#define SCALE_P               (0.1)
+#define SCALE_E               (1)
+#define SCALE_H               (0.1)
+#define SCALE_PF              (0.01)
+
+#define MAX_PZEM_TIMEOUT      (2000) //ms
+#define MIN_PZEM_TIMEOUT      (50) //ms
 
 typedef struct pzem_info{
   float volt;
