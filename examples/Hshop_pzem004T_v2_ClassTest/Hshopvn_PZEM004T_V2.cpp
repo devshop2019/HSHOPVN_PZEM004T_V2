@@ -11,22 +11,22 @@ byte resetEnergy_para[4] = {0xf8, 0x42, 0xc2, 0x41};
 }
 
 Hshopvn_Pzem04t::Hshopvn_Pzem04t(HardwareSerial * serial) {
-  serial->begin(9600);
+//  serial->begin(9600);
   port = serial;
   typeSerial = HARD_SERIAL;
   setTimeout(MIN_PZEM_TIMEOUT);
 }
 
 Hshopvn_Pzem04t::Hshopvn_Pzem04t(SoftwareSerial * serial) {
-  serial->begin(9600);
+//  serial->begin(9600);
   port = serial;
   typeSerial = SOFT_SERIAL;
   setTimeout(MIN_PZEM_TIMEOUT);
 }
 
 Hshopvn_Pzem04t::Hshopvn_Pzem04t(int rxPin, int txPin) {
-  SoftwareSerial * yy = new SoftwareSerial(rxPin, rxPin);
-  yy->begin(9600);
+  SoftwareSerial * yy = new SoftwareSerial(rxPin, txPin);
+//  yy->begin(9600);
   port = yy;
   typeSerial = SOFT_SERIAL;
   setTimeout(MIN_PZEM_TIMEOUT);
@@ -34,10 +34,10 @@ Hshopvn_Pzem04t::Hshopvn_Pzem04t(int rxPin, int txPin) {
 
 void Hshopvn_Pzem04t::begin(unsigned long _tembaud) {
   if (typeSerial == HARD_SERIAL) {
-    HardwareSerial * tt = port;
+    HardwareSerial * tt = (HardwareSerial *)port;
     tt->begin(_tembaud);
   } else {
-    SoftwareSerial * tt = port;
+    SoftwareSerial * tt = (SoftwareSerial *) port;
     tt->begin(_tembaud);
   }
 }
@@ -56,6 +56,7 @@ pzem_info Hshopvn_Pzem04t::getData(){
   while (port->available()) {
     port->read();
   }
+  DB("port->write");
   port->write(getValue_para, sizeof(getValue_para));
 
   unsigned long temTime = millis();
@@ -66,6 +67,7 @@ pzem_info Hshopvn_Pzem04t::getData(){
     if (port->available()) {
       port->readBytes((byte*)&pzemData, sizeof(pzem_value));
       b_complete = true;
+      DB("port->available");
       break;
     }
   }
@@ -87,6 +89,12 @@ pzem_info Hshopvn_Pzem04t::getData(){
 
   } else {
     DB_LN("Read fail");
+    tem_pzem.volt = 0.0;
+    tem_pzem.ampe = 0.0;
+    tem_pzem.power = 0.0;
+    tem_pzem.energy = 0.0;
+    tem_pzem.freq = 0.0;
+    tem_pzem.powerFactor = 0.0;
   }
   return tem_pzem;
 }

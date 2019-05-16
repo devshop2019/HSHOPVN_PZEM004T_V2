@@ -12,8 +12,8 @@
 #define SCALE_H               (0.1)
 #define SCALE_PF              (0.01)
 
-#define MAX_PZEM_TIMEOUT      (2000) //ms
-#define MIN_PZEM_TIMEOUT      (50) //ms
+#define MAX_PZEM_TIMEOUT      (20000) //ms
+#define MIN_PZEM_TIMEOUT      (1000) //ms
 
 typedef struct pzem_info{
   float volt;
