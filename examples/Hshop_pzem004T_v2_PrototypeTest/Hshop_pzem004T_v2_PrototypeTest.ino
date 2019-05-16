@@ -5,7 +5,6 @@ SoftwareSerial pzem(2,3);
 #define DB(x)  debug.print(x);
 #define DB_LN(x)  debug.println(x);
 
-//#define MIROR_VALUE(x)      ((uint16_t)((x<<8)+(x>>8) & 0xff))
 #define MIROR_VALUE(x)      ((uint16_t)(((x<<8)&0xff00)+((x>>8)&0xff)))
 
 #define SCALE_V       (0.1)
@@ -16,6 +15,7 @@ SoftwareSerial pzem(2,3);
 #define SCALE_PF      (0.01)
 
 byte getValue_para[]={0xf8,0x04, 0x00, 0x00, 0x00, 0x0a, 0x64, 0x64};
+byte resetEnergy_para[] = { 0xf8, 0x42, 0xc2, 0x41};
 
 typedef struct pzem_info{
   float volt;
@@ -72,8 +72,6 @@ pzem_info sendCommand(){
   }
 
   if(b_complete){
-    float value = (float)MIROR_VALUE(pzemData.voltage_int)* 0.1;
-
     tem_pzem.volt = (float)MIROR_VALUE(pzemData.voltage_int)* SCALE_V;
     tem_pzem.ampe = (float)MIROR_VALUE(pzemData.ampe_int)* SCALE_A;
     tem_pzem.power = (float)MIROR_VALUE(pzemData.power_int)* SCALE_P;
@@ -88,15 +86,20 @@ pzem_info sendCommand(){
     DB(tem_pzem.freq);    DB("Hz - ");
     DB_LN(tem_pzem.powerFactor);    DB(" - ");
     
-    
-//    DB_LN("Volt: " + String(pzemData.voltage_int, HEX)+" pf: " + String(value));
-//    DB_LN("Volt: " + String(pzemData.voltage_int, HEX)+" pf: " + String(MIROR_VALUE(pzemData.powerFactor_int), HEX));
-    
   }else{
     DB_LN("Read fail");
   }
   return tem_pzem;
 }
+
+void reset_Energy(){
+  while(pzem.available()){
+    pzem.read();
+  }
+  pzem.write(resetEnergy_para, sizeof(resetEnergy_para));
+}
+
+
 void loop() {
   // put your main code here, to run repeatedly:
 
@@ -109,4 +112,3 @@ f8 04 14     08 d3        00 23       00 00       00 05     00 00     00 02   00
 
             225.9v -      0.035a -                0.5W  -             2Wh -             50.1hZ  -   0.06POWERFactor
 */
-
