@@ -9,11 +9,12 @@ void setup() {
   pzem1.begin();
   pzem1.setTimeout(100);
   
-  bool rr = pzem1.resetEnergy();
-
-  if(rr){
-    Serial.println("reset Energy ok");
-  }
+//  bool rr;
+//  rr = pzem1.resetEnergy();
+//  if(rr){
+//    Serial.println("reset Energy ok");
+//  }
+  
 }
 
 void loop() {
