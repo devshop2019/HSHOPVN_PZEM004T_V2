@@ -1,0 +1,15 @@
+{
+  "name": "Hshopvn_Pzem004t_V2",
+  "keywords": "pzem004t, pzem, power, hshop,hshopvn",
+  "description": "A library for communicating with Pzem004T module",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/devshop2019/HSHOPVN_PZEM004T_V2.git"
+  },
+  "frameworks": "arduino",
+  "platforms":
+  [
+    "atmelavr",
+  ]
+}
